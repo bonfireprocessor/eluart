@@ -37,6 +37,7 @@ static lua_State *globalL = NULL;
 static const char *progname = LUA_PROGNAME;
 
 
+
 #if defined(LUA_USE_POSIX)   /* { */
 
 /*
@@ -411,6 +412,7 @@ static int handle_luainit (lua_State *L) {
 ** lua_freeline defines how to free a line read by lua_readline.
 */
 #if !defined(lua_readline)	/* { */
+#pragma message "Defining lua_readline in lua.c"
 
 #if defined(LUA_USE_READLINE)	/* { */
 
@@ -640,7 +642,7 @@ static int pmain (lua_State *L) {
 }
 
 
-int main (int argc, char **argv) {
+int lua_main (int argc, char **argv) { // Modified TH
   int status, result;
   lua_State *L = luaL_newstate();  /* create state */
   if (L == NULL) {

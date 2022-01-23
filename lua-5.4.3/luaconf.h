@@ -116,7 +116,7 @@
 /*
 @@ LUA_32BITS enables Lua with 32-bit integers and 32-bit floats.
 */
-#define LUA_32BITS	0
+#define LUA_32BITS	1
 
 
 /*
@@ -217,14 +217,13 @@
 
 #else			/* }{ */
 
-#define LUA_ROOT	"/usr/local/"
-#define LUA_LDIR	LUA_ROOT "share/lua/" LUA_VDIR "/"
+#define LUA_ROOT	"/sd/lua/"
+#define LUA_LDIR	LUA_ROOT "lib/" 
 #define LUA_CDIR	LUA_ROOT "lib/lua/" LUA_VDIR "/"
 
 #if !defined(LUA_PATH_DEFAULT)
 #define LUA_PATH_DEFAULT  \
 		LUA_LDIR"?.lua;"  LUA_LDIR"?/init.lua;" \
-		LUA_CDIR"?.lua;"  LUA_CDIR"?/init.lua;" \
 		"./?.lua;" "./?/init.lua"
 #endif
 
@@ -782,6 +781,15 @@
 ** without modifying the main part of the file.
 */
 
+// From Lua2RTT 
+
+
+extern int lua2rtt_readline(const char *prompt, char *buffer, int length);
+#define lua_readline(L,b,p)     (lua2rtt_readline(p, b, LUA_MAXINPUT))
+#define lua_initreadline(L)	// Do nothing
+#define lua_saveline(L,idx)     { (void)L; (void)idx; }
+#define lua_freeline(L,b)       { (void)L; (void)b; }
+// End
 
 
 
