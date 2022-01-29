@@ -791,6 +791,10 @@ extern int lua2rtt_readline(const char *prompt, char *buffer, int length);
 #define lua_freeline(L,b)       { (void)L; (void)b; }
 // End
 
+#define LUA_TMPNAMBUFSIZE	L_tmpnam
+#define lua_tmpnam(b,e)		{ strncpy(b,tempnam("/sd/tmp","lua_tmp"),LUA_TMPNAMBUFSIZE); e=0; }
+
+
 
 
 

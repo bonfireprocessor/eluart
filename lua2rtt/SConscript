@@ -10,7 +10,7 @@ print(cwd)
         
 CPPPATH = [cwd]
 
-CPPDEFINES = []
+CPPDEFINES = ['-DLUA2RTT_THREAD_STACK_SIZE=200000']
 
 objs = DefineGroup('lua2rtt', src, depend = [''], CPPPATH = CPPPATH, CPPDEFINES=CPPDEFINES)
 
