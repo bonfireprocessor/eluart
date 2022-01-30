@@ -5,8 +5,8 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
-int eluart_open_riscv(lua_State *L);
-int eluart_open_cpu(lua_State *L);
+// int eluart_open_riscv(lua_State *L);
+// int eluart_open_cpu(lua_State *L);
 
 // Compatibilty with orginal elua code
 
@@ -20,7 +20,11 @@ int eluart_open_cpu(lua_State *L);
 // Helper functions
 
 // Tries to convert value at <index> to an lua_Integer, raise an error
-// "value cannot be converted to an integer"
+// "argument <index> cannot be converted to an integer"
 lua_Integer eluart_toInteger(lua_State *L,int index); 
+
+// Registers a module for later loading by the Lua engine
+// It cam be called in an  INIT_ENV_EXPORT  function
+void eluart_registerModule(const char* name,lua_CFunction initfunc);
 
 #endif 

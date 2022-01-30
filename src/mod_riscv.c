@@ -107,17 +107,17 @@ LUA_REG_TYPE riscv_map[] =
   { RT_NULL, RT_NULL }
 };
 
-int eluart_open_riscv(lua_State *L)
+static int eluart_open_riscv(lua_State *L)
 {
   luaL_newlib(L,riscv_map);
   return 1;
   
 }
 
+int register_module_riscv()
+{
+  eluart_registerModule("riscv",eluart_open_riscv);
+  return 0;
+}
 
-
-// int init(lua_State *L)
-// {
-//   luaL_requiref(L,"riscv",luaopen_riscv,1);
-//   return 1;
-// }
+INIT_ENV_EXPORT(register_module_riscv);

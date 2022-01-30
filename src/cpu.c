@@ -342,3 +342,12 @@ int eluart_open_cpu(lua_State *L)
   
 }
 
+int register_module_cpu()
+{
+  eluart_registerModule("cpu",eluart_open_cpu);
+  return 0;
+}
+
+INIT_ENV_EXPORT(register_module_cpu);
+
+
