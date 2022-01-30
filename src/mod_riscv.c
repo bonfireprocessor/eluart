@@ -83,12 +83,7 @@ rt_uint64_t val;
 }
 
 
-// Module function map
 
-#define LUA_REG_TYPE static const struct luaL_Reg
-#define LSTRKEY(str) str
-#define LFUNCVAL(f) f
-#define LREGISTER(L,n,m) luaL_openlib(L,n,m)
 
 //#include "lrodefs.h"
 LUA_REG_TYPE riscv_map[] =
