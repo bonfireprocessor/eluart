@@ -1,5 +1,8 @@
 #include <rtthread.h>
 #include "eluart.h"
+
+#ifdef  SOC_BONFIRE_ARTY
+
 #include "bonfire.h"
 //#include "lua2rtt.h"
 
@@ -121,3 +124,5 @@ int register_module_riscv()
 }
 
 INIT_ENV_EXPORT(register_module_riscv);
+
+#endif

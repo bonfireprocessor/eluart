@@ -12,7 +12,7 @@ CPPPATH = [cwd]
 
 CPPDEFINES = []
 
-objs = DefineGroup('eluart', src, depend = [''], CPPPATH = CPPPATH, CPPDEFINES=CPPDEFINES)
+objs = DefineGroup('eluart', src, depend = ['PKG_USING_ELUART'], CPPPATH = CPPPATH, CPPDEFINES=CPPDEFINES)
 
 #objs = objs + SConscript()
 
