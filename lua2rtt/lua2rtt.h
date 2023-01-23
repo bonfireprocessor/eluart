@@ -47,6 +47,7 @@ struct lua2rtt
 {
     rt_thread_t thread;
     struct rt_semaphore rx_sem;
+    struct rt_semaphore exit_sem;
 
     enum lua2rtt_input_stat stat;
 

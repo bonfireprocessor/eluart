@@ -783,12 +783,14 @@
 */
 
 // From Lua2RTT 
+#include "linenoise.h"
 
-
-extern int lua2rtt_readline(const char *prompt, char *buffer, int length);
-#define lua_readline(L,b,p)     (lua2rtt_readline(p, b, LUA_MAXINPUT))
-#define lua_initreadline(L)	// Do nothing
-#define lua_saveline(L,idx)     { (void)L; (void)idx; }
+extern int _lua_readline(const char *prompt, char *buffer, int length);
+#define lua_readline(L,b,p)     (_lua_readline(p, b, LUA_MAXINPUT))
+extern int _lua_initreadline();
+#define lua_initreadline(L)	(_lua_initreadline())
+extern void _lua_saveline(const char *line);
+#define lua_saveline(L,idx)     { (void)L; _lua_saveline((const char*)(idx)); }
 #define lua_freeline(L,b)       { (void)L; (void)b; }
 // End
 

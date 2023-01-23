@@ -275,6 +275,12 @@ start:
     }
 }
 
+
+static inline void lua2rtt_exit()
+{
+     rt_sem_release(&(handle.exit_sem));
+}
+
 static void lua2rtt_run(void *p)
 {
     const char *device_name = RT_CONSOLE_DEVICE_NAME;
@@ -283,11 +289,12 @@ static void lua2rtt_run(void *p)
     if(handle.device == RT_NULL)
     {
         LUA2RTT_DBG("The msh device find failed.\n");
+        lua2rtt_exit();
         return;
     }
 
-    handle.rx_indicate = handle.device->rx_indicate;
-    rt_device_set_rx_indicate(handle.device, lua2rtt_rxcb);
+    //handle.rx_indicate = handle.device->rx_indicate;
+    //rt_device_set_rx_indicate(handle.device, lua2rtt_rxcb);
 
     if(handle.argc == 1)
     {
@@ -301,10 +308,11 @@ static void lua2rtt_run(void *p)
         rt_free(handle.argv[1]);
     }
 
-    rt_sem_detach(&(handle.rx_sem));
-    rt_device_set_rx_indicate(handle.device, handle.rx_indicate);
+    // rt_sem_detach(&(handle.rx_sem));
+    // rt_device_set_rx_indicate(handle.device, handle.rx_indicate);
     // rt_kprintf("Exit Lua interactive mode.\n");
-    rt_kprintf(FINSH_PROMPT);
+   
+    lua2rtt_exit();
 }
 
 static int lua2rtt(int argc, char **argv)
@@ -332,6 +340,7 @@ static int lua2rtt(int argc, char **argv)
     }
 
     rt_sem_init(&(handle.rx_sem), "lua2rtt_rxsem", 0, RT_IPC_FLAG_FIFO);
+    rt_sem_init(&(handle.exit_sem), "lua_exitsem", 0, RT_IPC_FLAG_FIFO);
 
     handle.argc = argc;
 
@@ -352,10 +361,14 @@ static int lua2rtt(int argc, char **argv)
     if(handle.thread == RT_NULL)
     {
         rt_sem_detach(&(handle.rx_sem));
+        rt_sem_detach(&(handle.exit_sem));
         LUA2RTT_DBG("The Lua interpreter thread create failed.\n");
         return RT_ERROR;
     }
     rt_thread_startup(handle.thread);
+    rt_sem_take(&(handle.exit_sem),RT_WAITING_FOREVER); // Wait for Lua thread to exit
+    rt_sem_detach(&(handle.rx_sem));
+    rt_sem_detach(&(handle.exit_sem));
 
     return RT_EOK;
 }
