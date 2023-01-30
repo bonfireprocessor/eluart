@@ -52,15 +52,7 @@ struct lua2rtt
     enum lua2rtt_input_stat stat;
 
     int   argc;
-    char *argv[3];
-
-    char lua_history[LUA2RTT_HISTORY_LINES][LUA2RTT_CMD_SIZE];
-    rt_uint16_t history_count;
-    rt_uint16_t history_current;
-
-    char line[LUA2RTT_CMD_SIZE];
-    rt_uint16_t line_position;
-    rt_uint8_t line_curpos;
+    char **argv;
 
     rt_device_t device;
     rt_err_t (*rx_indicate)(rt_device_t dev, rt_size_t size); /* msh??????? */

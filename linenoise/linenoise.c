@@ -105,7 +105,6 @@
 
 #include <rtthread.h>
 
-#define strdup(s) rt_strdup((s))
 
 
 #include <termios.h>
@@ -121,6 +120,11 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include "linenoise.h"
+
+
+#define strdup(s) rt_strdup((s))
+#define malloc(sz) (rt_malloc((sz)))
+#define free(p) (rt_free((p)))
 
 
 #define LINENOISE_DEFAULT_HISTORY_MAX_LEN 100

@@ -8,8 +8,10 @@
 #ifndef luaconf_h
 #define luaconf_h
 
+#include "eluart_conf.h"
 #include <limits.h>
 #include <stddef.h>
+
 
 
 /*
@@ -112,6 +114,25 @@
 #define LUA_INT_DEFAULT		LUA_INT_LONGLONG
 #define LUA_FLOAT_DEFAULT	LUA_FLOAT_DOUBLE
 
+/* RT Lua defines - values are set from kconfig and found in rtconfig.h */
+#if defined(RTLUA_INT_32)
+#define LUA_INT_TYPE LUA_INT_LONG
+#elif defined(RTLUA_INT_64)
+#define LUA_INT_TYPE LUA_INT_LONGLONG
+#else
+#define LUA_INT_TYPE LUA_INT_TYPE_FALLBACK
+#endif 
+
+
+#if defined(RTLUA_FLOAT)
+#define LUA_FLOAT_TYPE LUA_FLOAT_FLOAT
+#elif defined(RTLUA_DOUBLE)
+#define LUA_FLOAT_TYPE LUA_FLOAT_DOUBLE
+#else
+#define LUA_FLOAT_TYPE LUA_FLOAT_TYPE_FALLBACK
+#endif 
+
+/* End rtlua */
 
 
 #if !defined(LUA_INT_TYPE) || !defined(LUA_FLOAT_TYPE) // TH
@@ -155,6 +176,8 @@
 
 #endif				/* } */
 
+#else
+//#pragma message "already definied"
 #endif 
 
 
@@ -218,7 +241,9 @@
 
 #else			/* }{ */
 
-#define LUA_ROOT	"/sd/lua/"
+#ifndef LUA_ROOT
+#define LUA_ROOT	"/"
+#endif
 #define LUA_LDIR	LUA_ROOT "lib/" 
 #define LUA_CDIR	LUA_ROOT "lib/lua/" LUA_VDIR "/"
 
